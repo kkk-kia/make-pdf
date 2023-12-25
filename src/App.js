@@ -1,7 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
-import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink, usePDF } from "@react-pdf/renderer";
 import MakePdf from "./components/pdf.js";
 
 function App() {
@@ -10,6 +9,7 @@ function App() {
   const [age, setAge] = useState("");
   const [imgFile, setImgFile] = useState("");
   const [show, setShow] = useState(false);
+  // const [x,updatex] = usePDF({document:<MakePdf name={name} family={family} age={age} imgFile={imgFile}/>})
 
   function showpdf() {
     setShow(true);
@@ -17,7 +17,6 @@ function App() {
 
   return (
     <div className="App">
-
       <div className="inputs">
         <input
           type="text"
@@ -48,20 +47,25 @@ function App() {
             setImgFile(URL.createObjectURL(e.target.files[0]));
           }}
         ></input>
-        <button onClick={showpdf}>
-          show pdf
-        </button>
+        <button onClick={showpdf}>show pdf</button>
+
+        {show === true && (
+          // <a href={x.url} download="mypdf">download pdf</a>
+          <PDFDownloadLink document={<MakePdf name={name} family={family} age={age} imgFile={imgFile} />} fileName="kia.pdf" className="pdfDownloadLink">
+           {({ blob, url, loading, error }) =>
+              loading ? "loading..." : "downlaod pdf"
+            }
+          </PDFDownloadLink>
+        )}
       </div>
 
-      
-        {show === true && (
+      {show === true && (
         <div className="pdf-container">
           <PDFViewer className="pdfViewer">
             <MakePdf name={name} family={family} age={age} imgFile={imgFile} />
           </PDFViewer>
         </div>
       )}
-
     </div>
   );
 }
@@ -76,4 +80,7 @@ export default App;
           loading ? 'در حال بارگیری...' : 'دانلود فایل PDF'
         }
       </PDFDownloadLink> */
+}
+{
+  // blob رو کامل متوجه نشدم
 }

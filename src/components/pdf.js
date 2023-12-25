@@ -32,9 +32,10 @@ const style = StyleSheet.create({
 });
 
 const MakePdf = ({ name, family, age, imgFile }) => (
+
   <Document>
     <Page style={style.page} size="a4">
-      <Image style={style.img} src={imgFile}></Image>
+      {(imgFile !="") && (<Image style={style.img} src={imgFile}></Image>)}
       {(name != "") && (<Text style={style.text}>your name is {name}</Text>)}
       {(family != "") && (<Text style={style.text}>your family is {family}</Text>)}
       {(age != "") && (<Text style={style.text}>your age is {age}</Text>)}
