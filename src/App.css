@@ -33,6 +33,22 @@ body{
   width: 100px;
   height: 40px;
 }
+.inputs .imgUploader{
+  display: flex;
+  align-items: baseline;
+}
+.inputs .imgUploader input{ 
+  width: 200px;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+.inputs .imgUploader label{
+font-size: 20px;
+width: 50%;
+height: auto;
+margin: 5px 10px;
+}
 
 .pdf-container{
   width: 80%;

@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
-import { PDFViewer, PDFDownloadLink, usePDF } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink, usePDF, Font } from "@react-pdf/renderer";
 import MakePdf from "./components/pdf.js";
 
 function App() {
@@ -8,7 +8,26 @@ function App() {
   const [family, setFamily] = useState("");
   const [age, setAge] = useState("");
   const [imgFile, setImgFile] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [favoriteMovie, setFavoriteMovie] = useState("");
+  const [favoriteColor, setFavoriteColor] = useState("");
   const [show, setShow] = useState(false);
+
+  const pdfProps = {
+    name: name,
+    family: family,
+    age: age,
+    imgFile: imgFile,
+    postalCode: postalCode,
+    country: country,
+    city: city,
+    address: address,
+    favoriteMovie: favoriteMovie,
+    favoriteColor: favoriteColor,
+  };
   // const [x,updatex] = usePDF({document:<MakePdf name={name} family={family} age={age} imgFile={imgFile}/>})
 
   function showpdf() {
@@ -40,19 +59,71 @@ function App() {
             setAge(e.target.value);
           }}
         ></input>
+        <div className="imgUploader">
+          <label>choose your image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              setImgFile(URL.createObjectURL(e.target.files[0]));
+            }}
+          ></input>
+        </div>
+
         <input
-          type="file"
-          accept="image/*"
+          type="number"
+          placeholder="Postal code"
+          min={0}
+          max={12}
           onChange={(e) => {
-            setImgFile(URL.createObjectURL(e.target.files[0]));
+            setPostalCode(e.target.value);
+          }}
+        ></input>
+        <input
+          type="text"
+          placeholder="country"
+          onChange={(e) => {
+            setCountry(e.target.value);
+          }}
+        ></input>
+        <input
+          type="text"
+          placeholder="city"
+          onChange={(e) => {
+            setCity(e.target.value);
+          }}
+        ></input>
+        <input
+          type="text"
+          placeholder="address"
+          onChange={(e) => {
+            setAddress(e.target.value);
+          }}
+        ></input>
+        <input
+          type="text"
+          placeholder="Favorite Movie"
+          onChange={(e) => {
+            setFavoriteMovie(e.target.value);
+          }}
+        ></input>
+        <input
+          type="text"
+          placeholder="Favorite Color"
+          onChange={(e) => {
+            setFavoriteColor(e.target.value);
           }}
         ></input>
         <button onClick={showpdf}>show pdf</button>
 
         {show === true && (
           // <a href={x.url} download="mypdf">download pdf</a>
-          <PDFDownloadLink document={<MakePdf name={name} family={family} age={age} imgFile={imgFile} />} fileName="kia.pdf" className="pdfDownloadLink">
-           {({ blob, url, loading, error }) =>
+          <PDFDownloadLink
+            document={<MakePdf {...pdfProps} />}
+            fileName="kia.pdf"
+            className="pdfDownloadLink"
+          >
+            {({ blob, url, loading, error }) =>
               loading ? "loading..." : "downlaod pdf"
             }
           </PDFDownloadLink>
@@ -62,7 +133,7 @@ function App() {
       {show === true && (
         <div className="pdf-container">
           <PDFViewer className="pdfViewer">
-            <MakePdf name={name} family={family} age={age} imgFile={imgFile} />
+            <MakePdf {...pdfProps} />
           </PDFViewer>
         </div>
       )}
